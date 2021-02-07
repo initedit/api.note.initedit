@@ -11,28 +11,33 @@
   |
  */
 
-$router->get('/info', function () use ($router) {
+use App\Http\Controllers\NoteController;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/info', function () use ($router) {
     return $router->app->version();
 });
-$router->get('/version', function () use ($router) {
+Route::get('/version', function () use ($router) {
     return $router->app->version();
 });
-$router->get('/api/note/routes', "NoteController@fetchRoutes");
 
-$router->get('/api/note/{slug}/tab/{tabid}', "NoteController@fetchTab");
-$router->get('/api/note/{slug}/tabs', "NoteController@fetchTabs");
-$router->get('/api/note/{slug}', "NoteController@fetch");
+Route::group(["prefix" => "/api"], function () use ($router) {
 
-$router->post('/api/note/{slug}/auth', "NoteController@auth");
-$router->post('/api/note', "NoteController@addNote");
-$router->post('/api/note/{slug}/tab', "NoteController@addTab");
-$router->post('/api/note/{slug}/tabs', "NoteController@addTabs");
+    Route::get('/note/routes', ['uses'=>'NoteController@fetchRoutes']);
 
-$router->patch('/api/note/{slug}/tab/{tabid}', "NoteController@updateTab");
-$router->patch('/api/note/{slug}/tab', "NoteController@updateTabs");
-$router->patch('/api/note/{slug}', "NoteController@updateNote");
+    Route::get('/note/{slug}/tab/{tabid}', ['middleware' => 'auth:read', 'uses'=>'NoteController@fetchTab']);
+    Route::get('/note/{slug}/tabs', ['middleware' => 'auth:read', 'uses'=>'NoteController@fetchTabs']);
+    Route::get('/note/{slug}', ['middleware' => 'auth:read', 'uses'=>'NoteController@fetch']);
 
-$router->delete('/api/note/{slug}/tab/{tabid}', "NoteController@deleteTab");
-// $router->delete('/api/note/{slug}/tabs', "NoteController@deleteTabs");
-$router->delete('/api/note/{slug}', "NoteController@deleteNote");
+    Route::post('/note', ['uses' => 'NoteController@addNote']);
+    Route::post('/note/{slug}/auth', ['uses' => 'NoteController@auth']);
+    Route::post('/note/{slug}/tab', ['middleware' => 'auth:write', 'uses'=>'NoteController@addTab']);
+    Route::post('/note/{slug}/tabs', ['middleware' => 'auth:write', 'uses'=>'NoteController@addTabs']);
 
+    Route::patch('/note/{slug}/tab/{tabid}', ['middleware' => 'auth:write', 'uses'=>'NoteController@updateTab']);
+    Route::patch('/note/{slug}/tab', ['middleware' => 'auth:write', 'uses'=>'NoteController@updateTabs']);
+    Route::patch('/note/{slug}', ['middleware' => 'auth:write', 'uses'=>'NoteController@updateNote']);
+
+    Route::delete('/note/{slug}/tab/{tabid}', ['middleware' => 'auth:write', 'uses'=>'NoteController@deleteTab']);
+    Route::delete('/note/{slug}', ['middleware' => 'auth:write', 'uses'=>'NoteController@deleteNote']);
+});
