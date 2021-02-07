@@ -1,5 +1,5 @@
 def git_url = 'https://github.com/initedit/api.note.initedit.git'
-def git_branch = 'master'
+def git_branch = 'main'
 
 pipeline
 {
