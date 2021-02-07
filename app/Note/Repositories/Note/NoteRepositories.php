@@ -17,7 +17,7 @@ class NoteRepositories implements NoteInterface
         $name = $note['name'];
         $note_type = $note['type'];
         $password = $note['password'];
-        if (!empty($note_type)) {
+        if (empty($note_type)) {
             $note_type = "Public";
         }
         $note_type = ucfirst($note_type);
@@ -38,7 +38,7 @@ class NoteRepositories implements NoteInterface
     {
         $note_type = $note['type'];
         $password = $note['password'];
-        if (!empty($note_type)) {
+        if (empty($note_type)) {
             $note_type = "Public";
         }
         $note_type = ucfirst($note_type);
