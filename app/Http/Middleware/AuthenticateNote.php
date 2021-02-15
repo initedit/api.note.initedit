@@ -19,6 +19,9 @@ class AuthenticateNote
     public function handle($request, Closure $next, $action = null)
     {
         $token = $request->input("token");
+        if(empty($token)){
+            $token = $request->header("token");
+        }
         $slug = $request->route('slug');
         if (!empty($slug)) {
             $results = DB::table('notes')->where('slug', $slug)->first();
