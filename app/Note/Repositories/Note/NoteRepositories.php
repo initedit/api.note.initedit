@@ -34,7 +34,7 @@ class NoteRepositories implements NoteInterface
             ->insert($noteInsert);
         return $objNote;
     }
-    public function update($slug, $note)
+    public function update($slug, $note, $tabs)
     {
         $note_type = $note['type'];
         $password = $note['password'];
@@ -51,9 +51,20 @@ class NoteRepositories implements NoteInterface
         if ($password) {
             $noteUpdate["password"] = $password;
         }
+        //TODO:: Make it a transaction
         $objNote = DB::table("notes")
             ->where("slug", $slug)
-            ->update($noteUpdate);;
+            ->update($noteUpdate);
+        //Update Tabs as well
+        if ($tabs != null) {
+            foreach ($tabs as $tab) {
+                $tabid = isset($tab["id"]) ? $tab["id"] : null;
+                $notes = $this->getTabById($slug, $tabid);
+                if ($notes != null) {
+                    $this->updateTab($slug, $tabid, $tab);
+                }
+            }
+        }
         return $objNote;
     }
 
