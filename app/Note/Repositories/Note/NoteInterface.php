@@ -5,7 +5,7 @@ namespace App\Note\Repositories\Note;
 interface NoteInterface
 {
     public function create($note);
-    public function update($slug, $note);
+    public function update($slug, $note,$items);
     public function delete($slug);
     public function encryptPassword($pass);
     public function getNoteBySlug($slug);

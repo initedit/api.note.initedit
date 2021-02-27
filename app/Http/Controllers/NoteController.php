@@ -46,7 +46,8 @@ class NoteController extends Controller
         if ($notes != null) {
             $info = [
                 "type" => $note->type,
-                "created_on" => $note->createdon
+                "created_on" => $note->createdon,
+                "slug"=>$slug,
             ];
             $response = [
                 "code" => 1,
@@ -76,7 +77,8 @@ class NoteController extends Controller
         if ($notes != null) {
             $info = [
                 "type" => $note->type,
-                "created_on" => $note->createdon
+                "created_on" => $note->createdon,
+                "slug"=>$slug,
             ];
             $response = [
                 "code" => 1,
@@ -118,7 +120,8 @@ class NoteController extends Controller
 
                     $info = [
                         "type" => $results->type,
-                        "created_on" => $results->createdon
+                        "created_on" => $results->createdon,
+                        "slug"=>$slug,
                     ];
 
                     $response = [
@@ -156,7 +159,8 @@ class NoteController extends Controller
 
         $info = [
             "type" => $note->type,
-            "created_on" => $note->createdon
+            "created_on" => $note->createdon,
+            "slug"=>$slug,
         ];
 
         $response = [
@@ -235,7 +239,10 @@ class NoteController extends Controller
         if (!$request->has("password")) {
             $noteUpdate['password'] = $request->headerToken;
         }
-        $this->noteRepositories->update($slug, $noteUpdate);
+        $user_tabs = $request->json('items');
+        // dump($user_tabs);
+        // return response($user_tabs);
+        $this->noteRepositories->update($slug, $noteUpdate, $user_tabs);
         $response = [
             "code" => 1,
             "error" => "",
