@@ -10,3 +10,5 @@ RUN mkdir -p /app/storage/logs/
 RUN chown application:application -R /app/storage/logs/
 ENV WEB_DOCUMENT_ROOT=/app/public
 EXPOSE 80
+COPY env_update.sh /env_update.sh && chmod +x /env_update.sh
+ENTRYPOINT ["/bin/bash","-c","/env_update.sh && /entrypoint"]
