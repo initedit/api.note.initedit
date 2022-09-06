@@ -4,6 +4,7 @@ Backend api for note.initedit
 
 ### Build docker image
 
+
 - update `.env.example` and rename to `.env`
 
 ```bash
