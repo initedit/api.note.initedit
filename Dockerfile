@@ -9,4 +9,7 @@ COPY --from=build /opt /app
 RUN mkdir -p /app/storage/logs/
 RUN chown application:application -R /app/storage/logs/
 ENV WEB_DOCUMENT_ROOT=/app/public
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 EXPOSE 80
+ENTRYPOINT ["/start.sh"]
