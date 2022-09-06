@@ -1,8 +1,8 @@
-# initedit/api.note.initedit
+# api.note.initedit
 
 Backend api for note.initedit
 
-### Build with docker
+### Build docker image
 
 - update `.env.example` and rename to `.env`
 
@@ -24,7 +24,7 @@ docker run -it \
     -e DB_DATABASE="initedit" \
     -e DB_USERNAME="root" \
     -e DB_PASSWORD="secret" \
-     initedit/api.note "migrate"
+     initedit/api.note.initedit "migrate"
 
 #run
 docker run -d -p 8000:80 \
@@ -33,10 +33,10 @@ docker run -d -p 8000:80 \
     -e DB_DATABASE="initedit" \
     -e DB_USERNAME="root" \
     -e DB_PASSWORD="secret" \
-     initedit/api.note
+     initedit/api.note.initedit
 ```
 
-### Now run Note UI frontend `NOTE_API_BACKEND`
+### Now with note.initedit frontend
 
 ```bash
 docker run -d -p 80:80 -e NOTE_API_BACKEND='http://$NOTE_API_BACKEND/api/' note.initedit
